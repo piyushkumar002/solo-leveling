@@ -11,8 +11,8 @@ function updateStats() {
     document.getElementById('strength').textContent = player.strength;
     document.getElementById('perception').textContent = player.perception;
     document.getElementById('intelligence').textContent = player.intelligence;
-    let wt_sum = (player.strength * 1) + (player.intelligence * 5) + (player.perception * 5)
-    let tot_wt = 11
+    let wt_sum = (player.strength * 4) + (player.intelligence * 3) + (player.perception * 2)
+    let tot_wt = 9
     document.getElementById('overall-lvl').textContent = Math.floor(wt_sum/tot_wt)
 }
 
