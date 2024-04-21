@@ -1,34 +1,62 @@
 // Initial player stats
 let player = {
     level: 1,
-    health: 100,
-    attack: 10,
-    defense: 5,
-    experience: 0
+    strength: 1,
+    perception: 1,
+    intelligence: 1
 };
 
 // Function to update stats on the screen
 function updateStats() {
-    document.getElementById('level').textContent = player.level;
-    document.getElementById('health').textContent = player.health;
-    document.getElementById('attack').textContent = player.attack;
-    document.getElementById('defense').textContent = player.defense;
-    document.getElementById('experience').textContent = player.experience;
+    document.getElementById('strength').textContent = player.strength;
+    document.getElementById('perception').textContent = player.perception;
+    document.getElementById('intelligence').textContent = player.intelligence;
+    let wt_sum = (player.strength * 1) + (player.intelligence * 1) + (player.perception * 0.5)
+    let tot_wt = 2.5
+    document.getElementById('overall-lvl').textContent = Math.floor(wt_sum/tot_wt)
 }
 
-// Function to increase player level
+// Function to increase player strength
 function increaseLevel() {
-    player.level++;
+    player.strength++;
     updateStats();
 }
 
-// Function to decrease player level (with minimum level set to 1)
+// Function to decrease player strength (with minimum strength set to 1)
 function decreaseLevel() {
-    if (player.level > 1) {
-        player.level--;
+    if (player.strength > 1) {
+        player.strength--;
         updateStats();
     }
 }
+
+// code addition 1
+function increasePerception() {
+    player.perception++;
+    updateStats();
+}
+
+
+function decreasePerception() {
+    if (player.perception > 1) {
+        player.perception--;
+        updateStats();
+    }
+}
+
+function increaseIntelligence() {
+    player.intelligence++;
+    updateStats();
+}
+
+function decreaseIntelligence() {
+    if (player.intelligence > 1) {
+        player.intelligence--;
+        updateStats();
+    }
+}
+
+// end of code add 1
 
 // Function to load player stats from the text file
 function loadStatsFromFile() {
@@ -42,11 +70,9 @@ function loadStatsFromFile() {
         reader.onload = function() {
             const statsData = reader.result;
             const statsArray = statsData.split(', ');
-            player.level = parseInt(statsArray[0].split(': ')[1]);
-            player.health = parseInt(statsArray[1].split(': ')[1]);
-            player.attack = parseInt(statsArray[2].split(': ')[1]);
-            player.defense = parseInt(statsArray[3].split(': ')[1]);
-            player.experience = parseInt(statsArray[4].split(': ')[1]);
+            player.strength = parseInt(statsArray[0].split(': ')[1]);
+            player.perception = parseInt(statsArray[1].split(': ')[1]);
+            player.intelligence = parseInt(statsArray[2].split(': ')[1]);
             updateStats();
         };
         reader.readAsText(file);
@@ -57,7 +83,7 @@ function loadStatsFromFile() {
 
 // Function to save player stats to the text file
 function saveStatsToFile() {
-    const statsData = `Level: ${player.level}, Health: ${player.health}, Attack: ${player.attack}, Defense: ${player.defense}, Experience: ${player.experience}`;
+    const statsData = `Strength: ${player.strength}, Perception: ${player.perception}, Intelligence: ${player.intelligence}`;
     localStorage.setItem('player_stats', statsData);
     alert('Player stats saved successfully!');
 }
@@ -67,18 +93,23 @@ function updateStatsFromStorage() {
     const statsData = localStorage.getItem('player_stats');
     if (statsData) {
         const statsArray = statsData.split(', ');
-        player.level = parseInt(statsArray[0].split(': ')[1]);
-        player.health = parseInt(statsArray[1].split(': ')[1]);
-        player.attack = parseInt(statsArray[2].split(': ')[1]);
-        player.defense = parseInt(statsArray[3].split(': ')[1]);
-        player.experience = parseInt(statsArray[4].split(': ')[1]);
+        player.strength = parseInt(statsArray[0].split(': ')[1]);
+        player.perception = parseInt(statsArray[1].split(': ')[1]);
+        player.intelligence = parseInt(statsArray[2].split(': ')[1]);
         updateStats();
     }
 }
 
 // Event listeners for the buttons
-document.getElementById('increase-level-btn').addEventListener('click', increaseLevel);
-document.getElementById('decrease-level-btn').addEventListener('click', decreaseLevel);
+document.getElementById('increase-strength-btn').addEventListener('click', increaseLevel);
+document.getElementById('decrease-strength-btn').addEventListener('click', decreaseLevel);
+
+document.getElementById('increase-perception-btn').addEventListener('click', increasePerception);
+document.getElementById('decrease-perception-btn').addEventListener('click', decreasePerception);
+
+document.getElementById('increase-intelligence-btn').addEventListener('click', increaseIntelligence);
+document.getElementById('decrease-intelligence-btn').addEventListener('click', decreaseIntelligence);
+
 document.getElementById('save-stats-btn').addEventListener('click', saveStatsToFile);
 document.getElementById('load-stats-btn').addEventListener('click', loadStatsFromFile);
 
