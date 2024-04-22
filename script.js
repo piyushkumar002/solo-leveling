@@ -3,7 +3,8 @@ let player = {
     level: 1,
     strength: 1,
     perception: 1,
-    intelligence: 1
+    intelligence: 1,
+    agility: 1
 };
 
 // Function to update stats on the screen
@@ -11,8 +12,9 @@ function updateStats() {
     document.getElementById('strength').textContent = player.strength;
     document.getElementById('perception').textContent = player.perception;
     document.getElementById('intelligence').textContent = player.intelligence;
-    let wt_sum = (player.strength * 4) + (player.intelligence * 3) + (player.perception * 2)
-    let tot_wt = 9
+    document.getElementById('agility').textContent = player.agility;
+    let wt_sum = (player.strength * 5) + (player.intelligence * 4) + (player.agility * 3) + (player.perception * 2)
+    let tot_wt = 14
     document.getElementById('overall-lvl').textContent = Math.floor(wt_sum/tot_wt)
 }
 
@@ -56,6 +58,18 @@ function decreaseIntelligence() {
     }
 }
 
+function increaseAgility() {
+    player.agility++;
+    updateStats();
+}
+
+function decreaseAgility() {
+    if (player.agility > 1) {
+        player.agility--;
+        updateStats();
+    }
+}
+
 // end of code add 1
 
 // Function to load player stats from the text file
@@ -71,8 +85,9 @@ function loadStatsFromFile() {
             const statsData = reader.result;
             const statsArray = statsData.split(', ');
             player.strength = parseInt(statsArray[0].split(': ')[1]);
-            player.perception = parseInt(statsArray[1].split(': ')[1]);
-            player.intelligence = parseInt(statsArray[2].split(': ')[1]);
+            player.perception = parseInt(statsArray[3].split(': ')[1]);
+            player.intelligence = parseInt(statsArray[1].split(': ')[1]);
+            player.agility = parseInt(statsArray[2].split(': ')[1]);
             updateStats();
         };
         reader.readAsText(file);
@@ -83,7 +98,7 @@ function loadStatsFromFile() {
 
 // Function to save player stats to the text file
 function saveStatsToFile() {
-    const statsData = `Strength: ${player.strength}, Perception: ${player.perception}, Intelligence: ${player.intelligence}`;
+    const statsData = `Strength: ${player.strength}, Intelligence: ${player.intelligence}, Agility: ${player.agility}, Perception: ${player.perception}`;
     localStorage.setItem('player_stats', statsData);
     alert('Player stats saved successfully!');
 }
@@ -94,8 +109,10 @@ function updateStatsFromStorage() {
     if (statsData) {
         const statsArray = statsData.split(', ');
         player.strength = parseInt(statsArray[0].split(': ')[1]);
-        player.perception = parseInt(statsArray[1].split(': ')[1]);
-        player.intelligence = parseInt(statsArray[2].split(': ')[1]);
+        
+        player.intelligence = parseInt(statsArray[1].split(': ')[1]);
+        player.agility = parseInt(statsArray[2].split(': ')[1]);
+        player.perception = parseInt(statsArray[3].split(': ')[1]);
         updateStats();
     }
 }
@@ -109,6 +126,9 @@ document.getElementById('decrease-perception-btn').addEventListener('click', dec
 
 document.getElementById('increase-intelligence-btn').addEventListener('click', increaseIntelligence);
 document.getElementById('decrease-intelligence-btn').addEventListener('click', decreaseIntelligence);
+
+document.getElementById('increase-agility-btn').addEventListener('click', increaseAgility);
+document.getElementById('decrease-agility-btn').addEventListener('click', decreaseAgility);
 
 document.getElementById('save-stats-btn').addEventListener('click', saveStatsToFile);
 document.getElementById('load-stats-btn').addEventListener('click', loadStatsFromFile);
