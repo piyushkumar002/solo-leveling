@@ -38,7 +38,7 @@
         </div>
         <div class="stat">
             <span class="stat-name">INTELLIGENCE:</span>
-            <span id="intelligence" class="stat-value">10</span>
+            <span id="intelligence" class="stat-value"><span id="b2value">Loading...</span></span>
             <div class="incDecBtn">
                 <button id="increase-intelligence-btn">+</button>
             <button id="decrease-intelligence-btn">-</button>
@@ -61,5 +61,27 @@
     </div>
 
     <script src="script.js"></script>
+    <script type="text/javascript">
+        function fetchB2() {
+          const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQck63Tfd4pErkjAwQU5-farHP9FQqh6MY_rxsEVgkkgZOpReF71KZUrznLheTmqOHJ7esZhKEt5X0P/pub?gid=1373134383&single=true&output=csv';
+    
+          fetch(sheetURL)
+            .then(response => response.text())
+            .then(csvText => {
+              const rows = csvText.split('\n');
+              const secondRow = rows[1]; // C2 is in the second row
+              const columns = secondRow.split(',');
+    
+              const b2Value = columns[2]; // Column C (index 2)
+              document.getElementById('b2value').textContent = b2Value;
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+              document.getElementById('b2value').textContent = 'Error!';
+            });
+        }
+    
+        fetchB2();
+      </script>
 </body>
 </html>
