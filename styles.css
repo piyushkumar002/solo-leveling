@@ -26,7 +26,7 @@ body {
 .stat {
     display: flex;
     align-items: center; /* Align items vertically */
-    justify-content: space-between;
+    justify-content: space-around;
     margin-bottom: 10px;
 }
 
